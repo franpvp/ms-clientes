@@ -12,7 +12,7 @@ public class TipoUsuarioMapper {
 
         return TipoUsuarioResponse.builder()
                 .id(entity.getId())
-                .nombreTipo(entity.getNombreTipo())
+                .nombreTipo(entity.getNombre())
                 .descripcion(entity.getDescripcion())
                 .build();
     }

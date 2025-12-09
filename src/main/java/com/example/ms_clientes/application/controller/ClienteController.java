@@ -3,6 +3,7 @@ package com.example.ms_clientes.application.controller;
 import com.example.ms_clientes.application.dto.ActualizarClienteRequest;
 import com.example.ms_clientes.application.dto.ClienteResponse;
 import com.example.ms_clientes.application.dto.CrearClienteRequest;
+import com.example.ms_clientes.application.dto.UsuarioResponse;
 import com.example.ms_clientes.application.service.ClienteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,11 @@ public class ClienteController {
     @GetMapping("/{id}")
     public ClienteResponse obtenerPorId(@PathVariable Long id) {
         return clienteService.obtenerPorId(id);
+    }
+
+    @GetMapping("/email/{email}")
+    public ClienteResponse obtenerPorEmail(@PathVariable String email) {
+        return clienteService.obtenerPorEmail(email);
     }
 
     @GetMapping

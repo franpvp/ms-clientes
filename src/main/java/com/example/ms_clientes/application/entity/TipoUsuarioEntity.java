@@ -26,8 +26,8 @@ public class TipoUsuarioEntity {
     @Column(name = "id_tipo_usuario")
     private Long id;
 
-    @Column(name = "nombre_tipo", nullable = false, unique = true)
-    private String nombreTipo;
+    @Column(name = "nombre", nullable = false, unique = true, length = 50)
+    private String nombre;
 
     @Column(name = "descripcion")
     private String descripcion;

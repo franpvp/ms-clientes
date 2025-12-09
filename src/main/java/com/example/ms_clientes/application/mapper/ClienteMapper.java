@@ -20,6 +20,7 @@ public class ClienteMapper {
                 .nombre(entity.getNombre())
                 .apellido(entity.getApellido())
                 .telefono(entity.getTelefono())
+                .email(entity.getEmail())
                 .direccion(entity.getDireccion())
                 .ciudad(entity.getCiudad())
                 .fechaRegistro(entity.getFechaRegistro())

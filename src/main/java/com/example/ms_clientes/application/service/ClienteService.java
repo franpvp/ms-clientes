@@ -12,6 +12,8 @@ public interface ClienteService {
 
     ClienteResponse obtenerPorId(Long idCliente);
 
+    ClienteResponse obtenerPorEmail(String email);
+
     List<ClienteResponse> listarTodos();
 
     ClienteResponse actualizar(Long idCliente, ActualizarClienteRequest request);

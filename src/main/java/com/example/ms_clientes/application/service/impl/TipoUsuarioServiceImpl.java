@@ -24,14 +24,14 @@ public class TipoUsuarioServiceImpl implements TipoUsuarioService {
     @Override
     public TipoUsuarioResponse crear(CrearTipoUsuarioRequest request) {
 
-        if (tipoUsuarioRepository.existsByNombreTipo(request.getNombreTipo())) {
+        if (tipoUsuarioRepository.existsByNombre(request.getNombreTipo())) {
             throw new IllegalArgumentException(
                     "Ya existe un tipo de usuario con nombre: " + request.getNombreTipo()
             );
         }
 
         TipoUsuarioEntity entity = TipoUsuarioEntity.builder()
-                .nombreTipo(request.getNombreTipo())
+                .nombre(request.getNombreTipo())
                 .descripcion(request.getDescripcion())
                 .build();
 
@@ -52,7 +52,7 @@ public class TipoUsuarioServiceImpl implements TipoUsuarioService {
     @Override
     @Transactional
     public TipoUsuarioResponse obtenerPorNombre(String nombreTipo) {
-        TipoUsuarioEntity entity = tipoUsuarioRepository.findByNombreTipo(nombreTipo)
+        TipoUsuarioEntity entity = tipoUsuarioRepository.findByNombre(nombreTipo)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Tipo de usuario no encontrado con nombre=" + nombreTipo));
 
@@ -74,7 +74,7 @@ public class TipoUsuarioServiceImpl implements TipoUsuarioService {
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Tipo de usuario no encontrado con id=" + id));
 
-        tipoUsuarioRepository.findByNombreTipo(request.getNombreTipo())
+        tipoUsuarioRepository.findByNombre(request.getNombreTipo())
                 .filter(otro -> !otro.getId().equals(id))
                 .ifPresent(otro -> {
                     throw new IllegalArgumentException(
@@ -82,7 +82,7 @@ public class TipoUsuarioServiceImpl implements TipoUsuarioService {
                     );
                 });
 
-        entity.setNombreTipo(request.getNombreTipo());
+        entity.setNombre(request.getNombreTipo());
         entity.setDescripcion(request.getDescripcion());
 
         TipoUsuarioEntity updated = tipoUsuarioRepository.save(entity);

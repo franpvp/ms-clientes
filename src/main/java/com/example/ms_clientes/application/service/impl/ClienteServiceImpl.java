@@ -3,10 +3,12 @@ package com.example.ms_clientes.application.service.impl;
 import com.example.ms_clientes.application.dto.ActualizarClienteRequest;
 import com.example.ms_clientes.application.dto.ClienteResponse;
 import com.example.ms_clientes.application.dto.CrearClienteRequest;
+import com.example.ms_clientes.application.dto.UsuarioResponse;
 import com.example.ms_clientes.application.entity.ClienteEntity;
 import com.example.ms_clientes.application.entity.TipoUsuarioEntity;
 import com.example.ms_clientes.application.entity.UsuarioEntity;
 import com.example.ms_clientes.application.mapper.ClienteMapper;
+import com.example.ms_clientes.application.mapper.UsuarioMapper;
 import com.example.ms_clientes.application.repository.UsuarioRepository;
 import com.example.ms_clientes.application.service.ClienteService;
 import com.example.ms_clientes.application.repository.ClienteRepository;
@@ -31,7 +33,7 @@ public class ClienteServiceImpl implements ClienteService {
     public ClienteResponse crear(CrearClienteRequest request) {
         UsuarioEntity usuario = usuarioRepository.findById(request.getIdUsuario())
                 .orElseThrow(() -> new EntityNotFoundException(
-                        "Usuario no encontrado con id " + request.getIdUsuario()
+                        "Cliente no encontrado con id " + request.getIdUsuario()
                 ));
 
         ClienteEntity entity = ClienteEntity.builder()
@@ -39,6 +41,7 @@ public class ClienteServiceImpl implements ClienteService {
                 .nombre(request.getNombre())
                 .apellido(request.getApellido())
                 .telefono(request.getTelefono())
+                .email(request.getEmail())
                 .direccion(request.getDireccion())
                 .ciudad(request.getCiudad())
                 .fechaRegistro(LocalDateTime.now())
@@ -55,6 +58,15 @@ public class ClienteServiceImpl implements ClienteService {
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Cliente no encontrado con id " + idCliente
                 ));
+        return ClienteMapper.toResponse(entity);
+    }
+
+    @Override
+    @Transactional
+    public ClienteResponse obtenerPorEmail(String email) {
+        ClienteEntity entity = clienteRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("Cliente no encontrado con email=" + email));
+
         return ClienteMapper.toResponse(entity);
     }
 
@@ -121,6 +133,7 @@ public class ClienteServiceImpl implements ClienteService {
                             .usuario(usuario)
                             .nombre(nombre)
                             .apellido(apellido)
+                            .email(email)
                             .fechaRegistro(LocalDateTime.now())
                             .build();
 
