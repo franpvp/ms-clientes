@@ -1,5 +1,6 @@
 package com.example.ms_clientes.application.service.impl;
 
+import com.example.ms_clientes.application.dto.ActualizarClienteRequest;
 import com.example.ms_clientes.application.dto.ActualizarUsuarioRequest;
 import com.example.ms_clientes.application.dto.CrearUsuarioRequest;
 import com.example.ms_clientes.application.dto.UsuarioResponse;
@@ -79,20 +80,6 @@ public class UsuarioServiceImpl implements UsuarioService {
                 .stream()
                 .map(UsuarioMapper::toResponse)
                 .toList();
-    }
-
-    @Override
-    public UsuarioResponse actualizar(Long id, ActualizarUsuarioRequest request) {
-        UsuarioEntity entity = usuarioRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado con id=" + id));
-
-        entity.setUsername(request.getUsername());
-        entity.setEmail(request.getEmail());
-        entity.setActivo(request.getActivo());
-
-        UsuarioEntity updated = usuarioRepository.save(entity);
-
-        return UsuarioMapper.toResponse(updated);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.example.ms_clientes.application.controller;
 
+import com.example.ms_clientes.application.dto.ActualizarClienteRequest;
 import com.example.ms_clientes.application.dto.ActualizarUsuarioRequest;
 import com.example.ms_clientes.application.dto.CrearUsuarioRequest;
 import com.example.ms_clientes.application.dto.UsuarioResponse;
@@ -51,14 +52,6 @@ public class UsuarioController {
     @GetMapping("/username/{username}")
     public UsuarioResponse obtenerPorUsername(@PathVariable String username) {
         return usuarioService.obtenerPorUsername(username);
-    }
-
-    @PutMapping("/{id}")
-    public UsuarioResponse actualizar(
-            @PathVariable Long id,
-            @RequestBody ActualizarUsuarioRequest request
-    ) {
-        return usuarioService.actualizar(id, request);
     }
 
     @DeleteMapping("/{id}")

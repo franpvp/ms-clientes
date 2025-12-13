@@ -213,58 +213,6 @@ class UsuarioServiceImplTest {
                 .containsExactlyInAnyOrder("u1", "u2");
     }
 
-    @Test
-    void actualizarTest() {
-        // Arrange
-        Long id = 10L;
-
-        UsuarioEntity entity = new UsuarioEntity();
-        entity.setId(id);
-        entity.setUsername("old");
-        entity.setEmail("old@example.com");
-        entity.setActivo(false);
-
-        ActualizarUsuarioRequest request = ActualizarUsuarioRequest.builder()
-                .username("newUser")
-                .email("new@example.com")
-                .activo(true)
-                .build();
-
-        when(usuarioRepository.findById(id)).thenReturn(Optional.of(entity));
-        when(usuarioRepository.save(any(UsuarioEntity.class)))
-                .thenAnswer(inv -> inv.getArgument(0));
-
-        // Act
-        UsuarioResponse response = usuarioServiceImpl.actualizar(id, request);
-
-        // Assert
-        ArgumentCaptor<UsuarioEntity> captor = ArgumentCaptor.forClass(UsuarioEntity.class);
-        verify(usuarioRepository, times(1)).save(captor.capture());
-
-        UsuarioEntity updated = captor.getValue();
-        assertThat(updated.getUsername()).isEqualTo("newUser");
-        assertThat(updated.getEmail()).isEqualTo("new@example.com");
-        assertThat(updated.getActivo()).isTrue();
-
-        assertThat(response.getUsername()).isEqualTo("newUser");
-        assertThat(response.getEmail()).isEqualTo("new@example.com");
-    }
-
-    @Test
-    void actualizarNoEncontradoTest() {
-        // Arrange
-        Long id = 999L;
-        ActualizarUsuarioRequest request = new ActualizarUsuarioRequest();
-
-        when(usuarioRepository.findById(id)).thenReturn(Optional.empty());
-
-        // Act + Assert
-        assertThrows(EntityNotFoundException.class,
-                () -> usuarioServiceImpl.actualizar(id, request));
-
-        verify(usuarioRepository, times(1)).findById(id);
-        verify(usuarioRepository, never()).save(any(UsuarioEntity.class));
-    }
 
     @Test
     void eliminarTest() {

@@ -1,6 +1,6 @@
 package com.example.ms_clientes.application.service;
 
-import com.example.ms_clientes.application.dto.ActualizarUsuarioRequest;
+import com.example.ms_clientes.application.dto.ActualizarClienteRequest;
 import com.example.ms_clientes.application.dto.CrearUsuarioRequest;
 import com.example.ms_clientes.application.dto.UsuarioResponse;
 
@@ -17,8 +17,6 @@ public interface UsuarioService {
     UsuarioResponse obtenerPorUsername(String username);
 
     List<UsuarioResponse> listarTodos();
-
-    UsuarioResponse actualizar(Long id, ActualizarUsuarioRequest request);
 
     void eliminar(Long id);
 }

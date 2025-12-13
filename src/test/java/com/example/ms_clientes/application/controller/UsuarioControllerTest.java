@@ -122,33 +122,6 @@ class UsuarioControllerTest {
         verify(usuarioService, times(1)).obtenerPorUsername(username);
     }
 
-    @Test
-    void actualizarTest() {
-        // Arrange
-        Long id = 10L;
-        ActualizarUsuarioRequest request = ActualizarUsuarioRequest.builder()
-                .username("nuevo")
-                .email("nuevo@example.com")
-                .activo(true)
-                .build();
-
-        UsuarioResponse actualizado = UsuarioResponse.builder()
-                .id(id)
-                .username("nuevo")
-                .email("nuevo@example.com")
-                .activo(true)
-                .build();
-
-        when(usuarioService.actualizar(id, request)).thenReturn(actualizado);
-
-        // Act
-        UsuarioResponse response = usuarioController.actualizar(id, request);
-
-        // Assert
-        assertThat(response.getId()).isEqualTo(id);
-        assertThat(response.getUsername()).isEqualTo("nuevo");
-        verify(usuarioService, times(1)).actualizar(id, request);
-    }
 
     @Test
     void eliminarTest() {
