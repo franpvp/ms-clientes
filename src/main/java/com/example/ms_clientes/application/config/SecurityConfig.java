@@ -26,6 +26,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/actuator/health").permitAll()
                         .requestMatchers("/api/v1/clientes/sync").authenticated()
                         .anyRequest().permitAll()
                 )
