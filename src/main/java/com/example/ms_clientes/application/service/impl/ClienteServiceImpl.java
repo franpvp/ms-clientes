@@ -2,6 +2,7 @@ package com.example.ms_clientes.application.service.impl;
 
 import com.example.ms_clientes.application.dto.ActualizarClienteRequest;
 import com.example.ms_clientes.application.dto.ClienteResponse;
+import com.example.ms_clientes.application.dto.ContactoRequestDto;
 import com.example.ms_clientes.application.dto.CrearClienteRequest;
 import com.example.ms_clientes.application.dto.UsuarioResponse;
 import com.example.ms_clientes.application.entity.ClienteEntity;
@@ -16,6 +17,7 @@ import com.example.ms_clientes.application.util.SecurityUtil;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -26,8 +28,13 @@ import java.util.List;
 @Transactional
 public class ClienteServiceImpl implements ClienteService {
 
+    @Value("${app.contacto.destino}")
+    private String destino;
+
     private final ClienteRepository clienteRepository;
     private final UsuarioRepository usuarioRepository;
+    private final EmailService emailService;
+    private final EmailTemplateService templateService;
 
     @Override
     public ClienteResponse crear(CrearClienteRequest request) {
@@ -141,6 +148,13 @@ public class ClienteServiceImpl implements ClienteService {
                 });
 
         return ClienteMapper.toResponse(cliente);
+    }
+
+    public void enviarMensaje(ContactoRequestDto req) {
+        String subject = "Contacto TechFactory - " + (req.getNombre() == null ? "Usuario" : req.getNombre());
+        String html = templateService.templateContacto(req.getNombre(), req.getEmail(), req.getMensaje());
+
+        emailService.enviarCorreoHtml(destino, subject, html);
     }
 
 }

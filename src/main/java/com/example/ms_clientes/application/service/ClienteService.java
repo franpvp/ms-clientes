@@ -2,6 +2,7 @@ package com.example.ms_clientes.application.service;
 
 import com.example.ms_clientes.application.dto.ActualizarClienteRequest;
 import com.example.ms_clientes.application.dto.ClienteResponse;
+import com.example.ms_clientes.application.dto.ContactoRequestDto;
 import com.example.ms_clientes.application.dto.CrearClienteRequest;
 
 import java.util.List;
@@ -21,4 +22,6 @@ public interface ClienteService {
     void eliminar(Long idCliente);
 
     ClienteResponse sincronizarClienteAutenticado();
+
+    void enviarMensaje(ContactoRequestDto req);
 }

@@ -2,11 +2,12 @@ package com.example.ms_clientes.application.controller;
 
 import com.example.ms_clientes.application.dto.ActualizarClienteRequest;
 import com.example.ms_clientes.application.dto.ClienteResponse;
+import com.example.ms_clientes.application.dto.ContactoRequestDto;
 import com.example.ms_clientes.application.dto.CrearClienteRequest;
-import com.example.ms_clientes.application.dto.UsuarioResponse;
 import com.example.ms_clientes.application.service.ClienteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -66,6 +67,12 @@ public class ClienteController {
     @PostMapping("/sync")
     public ClienteResponse sincronizarClienteAutenticado() {
         return clienteService.sincronizarClienteAutenticado();
+    }
+
+    @PostMapping("/contacto")
+    public ResponseEntity<?> enviar(@RequestBody ContactoRequestDto request) {
+        clienteService.enviarMensaje(request);
+        return ResponseEntity.ok().build();
     }
 
 }
