@@ -1,12 +1,14 @@
 package com.example.ms_clientes.application.controller;
 
 import com.example.ms_clientes.application.dto.ActualizarClienteRequest;
+import com.example.ms_clientes.application.dto.ActualizarRolRequest;
 import com.example.ms_clientes.application.dto.ActualizarUsuarioRequest;
 import com.example.ms_clientes.application.dto.CrearUsuarioRequest;
 import com.example.ms_clientes.application.dto.UsuarioResponse;
 import com.example.ms_clientes.application.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,5 +60,14 @@ public class UsuarioController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void eliminar(@PathVariable Long id) {
         usuarioService.eliminar(id);
+    }
+
+    @PutMapping("/{id}/rol")
+    public ResponseEntity<UsuarioResponse> actualizarRol(
+            @PathVariable Long id,
+            @RequestBody ActualizarRolRequest request
+    ) {
+        UsuarioResponse response = usuarioService.actualizarRol(id, request.getRol());
+        return ResponseEntity.ok(response);
     }
 }

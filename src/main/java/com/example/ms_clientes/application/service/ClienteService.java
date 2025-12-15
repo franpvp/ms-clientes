@@ -24,4 +24,6 @@ public interface ClienteService {
     ClienteResponse sincronizarClienteAutenticado();
 
     void enviarMensaje(ContactoRequestDto req);
+
+    void actualizarRol(Long idCliente, String rolNombre);
 }

@@ -1,6 +1,7 @@
 package com.example.ms_clientes.application.controller;
 
 import com.example.ms_clientes.application.dto.ActualizarClienteRequest;
+import com.example.ms_clientes.application.dto.ActualizarRolRequest;
 import com.example.ms_clientes.application.dto.ClienteResponse;
 import com.example.ms_clientes.application.dto.ContactoRequestDto;
 import com.example.ms_clientes.application.dto.CrearClienteRequest;
@@ -72,6 +73,15 @@ public class ClienteController {
     @PostMapping("/contacto")
     public ResponseEntity<?> enviar(@RequestBody ContactoRequestDto request) {
         clienteService.enviarMensaje(request);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}/rol")
+    public ResponseEntity<Void> actualizarRol(
+            @PathVariable Long id,
+            @RequestBody ActualizarRolRequest request
+    ) {
+        clienteService.actualizarRol(id, request.getRol());
         return ResponseEntity.ok().build();
     }
 

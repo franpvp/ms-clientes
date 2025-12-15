@@ -19,4 +19,6 @@ public interface UsuarioService {
     List<UsuarioResponse> listarTodos();
 
     void eliminar(Long id);
+
+    UsuarioResponse actualizarRol(Long idUsuario, String nombreRol);
 }

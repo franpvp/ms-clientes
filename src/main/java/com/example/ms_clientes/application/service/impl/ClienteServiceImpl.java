@@ -4,12 +4,11 @@ import com.example.ms_clientes.application.dto.ActualizarClienteRequest;
 import com.example.ms_clientes.application.dto.ClienteResponse;
 import com.example.ms_clientes.application.dto.ContactoRequestDto;
 import com.example.ms_clientes.application.dto.CrearClienteRequest;
-import com.example.ms_clientes.application.dto.UsuarioResponse;
 import com.example.ms_clientes.application.entity.ClienteEntity;
 import com.example.ms_clientes.application.entity.TipoUsuarioEntity;
 import com.example.ms_clientes.application.entity.UsuarioEntity;
 import com.example.ms_clientes.application.mapper.ClienteMapper;
-import com.example.ms_clientes.application.mapper.UsuarioMapper;
+import com.example.ms_clientes.application.repository.TipoUsuarioRepository;
 import com.example.ms_clientes.application.repository.UsuarioRepository;
 import com.example.ms_clientes.application.service.ClienteService;
 import com.example.ms_clientes.application.repository.ClienteRepository;
@@ -33,6 +32,7 @@ public class ClienteServiceImpl implements ClienteService {
 
     private final ClienteRepository clienteRepository;
     private final UsuarioRepository usuarioRepository;
+    private final TipoUsuarioRepository tipoUsuarioRepository;
     private final EmailService emailService;
     private final EmailTemplateService templateService;
 
@@ -155,6 +155,24 @@ public class ClienteServiceImpl implements ClienteService {
         String html = templateService.templateContacto(req.getNombre(), req.getEmail(), req.getMensaje());
 
         emailService.enviarCorreoHtml(destino, subject, html);
+    }
+
+    @Transactional
+    public void actualizarRol(Long idCliente, String rolNombre) {
+
+        ClienteEntity cliente = clienteRepository.findById(idCliente)
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+
+        UsuarioEntity usuario = cliente.getUsuario();
+        if (usuario == null) {
+            throw new RuntimeException("Cliente no tiene usuario asociado");
+        }
+
+        TipoUsuarioEntity tipo = tipoUsuarioRepository
+                .findByNombre(rolNombre)
+                .orElseThrow(() -> new RuntimeException("Rol inválido"));
+
+        usuario.setTipoUsuario(tipo);
     }
 
 }

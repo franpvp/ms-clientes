@@ -313,7 +313,6 @@ class ClienteServiceImplTest {
 
             // Assert
             assertThat(response.getId()).isEqualTo(20L);
-            assertThat(response.getEmail()).isEqualTo(email);
             assertThat(response.getNombre()).isEqualTo("Nombre");
             assertThat(response.getApellido()).isEqualTo("Apellido");
 

@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 public class ClienteResponse {
 
     private Long id;
-    private Long idUsuario;
     private String nombre;
     private String apellido;
     private String telefono;
@@ -25,4 +24,5 @@ public class ClienteResponse {
     private String direccion;
     private String ciudad;
     private LocalDateTime fechaRegistro;
+    private UsuarioDTO usuario;
 }

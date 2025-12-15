@@ -90,4 +90,23 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         usuarioRepository.deleteById(id);
     }
+
+    @Override
+    @Transactional
+    public UsuarioResponse actualizarRol(Long idUsuario, String nombreRol) {
+
+        UsuarioEntity usuario = usuarioRepository.findById(idUsuario)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Usuario no encontrado con id=" + idUsuario));
+
+        TipoUsuarioEntity tipo = tipoUsuarioRepository.findByNombre(nombreRol)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Tipo de usuario no encontrado: " + nombreRol));
+
+        usuario.setTipoUsuario(tipo);
+
+        UsuarioEntity saved = usuarioRepository.save(usuario);
+
+        return UsuarioMapper.toResponse(saved);
+    }
 }
